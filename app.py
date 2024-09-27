@@ -10,6 +10,11 @@ def redirect_to_komatbang():
     return redirect('https://www.instagram.com/komatbang/')
 
 
-@app.route('/health')
-def health_check():
+@app.route('/health-http')
+def health_check_http():
+    return 'healthy'
+
+
+@app.route('/health-https')
+def health_check_https():
     return 'healthy'
