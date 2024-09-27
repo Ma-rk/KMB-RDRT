@@ -13,8 +13,3 @@ def redirect_to_komatbang():
 @app.route('/health-http')
 def health_check_http():
     return 'healthy'
-
-
-@app.route('/health-https')
-def health_check_https():
-    return 'healthy'
