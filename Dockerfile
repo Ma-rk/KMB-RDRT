@@ -1,5 +1,7 @@
 FROM python:3.12.5-slim-bookworm
 
+ENV TZ=Asia/Seoul
+
 WORKDIR /usr/src/app
 
 COPY requirements.txt ./
