@@ -43,7 +43,7 @@ def redirect_to_komatbang_http_www():
 
 @app.route('/https')
 def redirect_to_komatbang_https():
-    lg.info('http!!! redirecting to komatbang: https://www.instagram.com/komatbang/')
+    lg.info('https!!! redirecting to komatbang: https://www.instagram.com/komatbang/')
     return redirect_to_komatbang()
 
 
