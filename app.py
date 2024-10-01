@@ -1,4 +1,4 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, request
 import logging as lg
 from logging.handlers import TimedRotatingFileHandler
 
@@ -25,6 +25,9 @@ setup_logger()
 @app.route('/')
 def redirect_to_komatbang():
     lg.info('redirecting to komatbang: https://www.instagram.com/komatbang/')
+    lg.info(f'request: {request}')
+    lg.info(f'request.path: {request.path}')
+    lg.info(f'request.url: {request.url}')
     return redirect('https://www.instagram.com/komatbang/')
 
 
