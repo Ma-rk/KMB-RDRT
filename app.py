@@ -28,6 +28,8 @@ def redirect_to_komatbang():
     lg.info(f'request: {request}')
     lg.info(f'request.path: {request.path}')
     lg.info(f'request.url: {request.url}')
+    lg.info(f'request.headers: {request.headers}')
+    lg.info(f'protocol: {request.headers.get("X-Forwarded-Proto", "http")}')
     return redirect('https://www.instagram.com/komatbang/')
 
 
