@@ -7,9 +7,8 @@ app = Flask(__name__)
 
 def setup_logger():
     logger = lg.getLogger()
-    logger.setLevel(lg.INFO)  # 로그 레벨 설정
+    logger.setLevel(lg.INFO)
 
-    # 로그 파일 핸들러 (컨테이너 외부의 ~/logs 경로로 설정)
     log_file_handler = TimedRotatingFileHandler(
         '/logs/KMB_app.log', when="midnight", interval=1, backupCount=30
     )
