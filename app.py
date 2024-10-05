@@ -36,9 +36,6 @@ def redirect_to_komatbang():
     # 헤더
     headers_data = dict(request.headers)
 
-    lg.info('headers_data')
-    lg.info(headers_data)
-
     formatted_headers = json.dumps(headers_data, indent=4, separators=(",", ": "), ensure_ascii=False)
     lg.info("Headers Data:\n%s", formatted_headers)
 
