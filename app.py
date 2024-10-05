@@ -32,7 +32,6 @@ def redirect_to_komatbang():
     lg.info(f'request: {request}')
     lg.info(f'request.path: {request.path}')
     lg.info(f'request.url: {request.url}')
-    lg.info(f'request.headers: {request.headers}')
 
     # 헤더
     headers_data = dict(request.headers)
