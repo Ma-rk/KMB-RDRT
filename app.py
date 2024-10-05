@@ -1,3 +1,4 @@
+import json
 from flask import Flask, redirect, request, jsonify
 import logging as lg
 from logging.handlers import TimedRotatingFileHandler
@@ -38,8 +39,10 @@ def redirect_to_komatbang():
 
     lg.info('headers_data')
     lg.info(headers_data)
-    lg.info('jsonify(headers_data)')
-    lg.info(jsonify(headers_data))
+
+    formatted_headers = json.dumps(headers_data, indent=4, separators=(",", ": "), ensure_ascii=False)
+    lg.info("Headers Data:\n%s", formatted_headers)
+
     return redirect('https://www.instagram.com/komatbang/')
 
 
