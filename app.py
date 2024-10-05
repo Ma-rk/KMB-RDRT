@@ -33,6 +33,36 @@ def redirect_to_komatbang():
     lg.info(f'request.url: {request.url}')
     lg.info(f'request.headers: {request.headers}')
     lg.info(f'protocol: {request.headers.get("X-Forwarded-Proto", "http")}')
+
+    # URL 쿼리 파라미터 (GET 요청)
+    query_params = request.args.to_dict()
+
+    # 폼 데이터 (POST 요청, enctype="application/x-www-form-urlencoded")
+    form_data = request.form.to_dict()
+
+    # JSON 데이터 (POST 요청, Content-Type: application/json)
+    json_data = request.get_json() if request.is_json else {}
+
+    # 헤더
+    headers_data = dict(request.headers)
+
+    # 쿠키
+    cookies_data = request.cookies.to_dict()
+
+    # 파일 (multipart/form-data)
+    files_data = {file.filename: file for file in request.files.values()}
+
+    # 모든 데이터를 합치기
+    all_data = {
+        'query_params': query_params,
+        'form_data': form_data,
+        'json_data': json_data,
+        'headers_data': headers_data,
+        'cookies_data': cookies_data,
+        'files_data': list(files_data.keys())  # 파일 이름만 출력
+    }
+
+    lg.info(all_data)
     return redirect('https://www.instagram.com/komatbang/')
 
 
