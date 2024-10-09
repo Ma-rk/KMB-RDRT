@@ -66,10 +66,9 @@ def health_check_http():
 
 @app.teardown_request
 def teardown_request(exception):
-    lg.info(f'[{g.request_id}] request: {request}')
-    lg.info(f'[{g.request_id}] request.path: {request.path}')
-    lg.info(f'[{g.request_id}] request.url: {request.url}')
+    lg.info(f'[{g.request_id}][teardown_request] request: {request}')
+    lg.info(f'[{g.request_id}][teardown_request] request.path: {request.path}')
+    lg.info(f'[{g.request_id}][teardown_request] request.url: {request.url}')
     headers_data = dict(request.headers)
     formatted_headers = json.dumps(headers_data, indent=4, separators=(",", ": "), ensure_ascii=False)
-    lg.info(f'[{g.request_id}] Headers Data:\n{formatted_headers}')
-    lg.info(f'[{g.request_id}] teardown_request: {request}')
+    lg.info(f'[{g.request_id}][teardown_request] Headers Data:\n{formatted_headers}')
