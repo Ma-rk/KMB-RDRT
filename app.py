@@ -29,16 +29,6 @@ setup_logger()
 @app.route('/')
 def redirect_to_komatbang():
     lg.info('redirecting to komatbang: https://www.instagram.com/komatbang/')
-    lg.info(f'request: {request}')
-    lg.info(f'request.path: {request.path}')
-    lg.info(f'request.url: {request.url}')
-
-    # 헤더
-    headers_data = dict(request.headers)
-
-    formatted_headers = json.dumps(headers_data, indent=4, separators=(",", ": "), ensure_ascii=False)
-    lg.info("Headers Data:\n%s", formatted_headers)
-
     return redirect('https://www.instagram.com/komatbang/')
 
 
@@ -47,3 +37,12 @@ def health_check_http():
     return 'healthy'
 
 
+@app.teardown_request
+def teardown_request(exception):
+    lg.info(f'request: {request}')
+    lg.info(f'request.path: {request.path}')
+    lg.info(f'request.url: {request.url}')
+    headers_data = dict(request.headers)
+    formatted_headers = json.dumps(headers_data, indent=4, separators=(",", ": "), ensure_ascii=False)
+    lg.info("Headers Data:\n%s", formatted_headers)
+    lg.info(f'teardown_request: {request}')
