@@ -1,5 +1,5 @@
 import json
-from flask import Flask, redirect, request, jsonify
+from flask import Flask, redirect, request
 import logging as lg
 from logging.handlers import TimedRotatingFileHandler
 
@@ -45,3 +45,8 @@ def redirect_to_komatbang():
 @app.route('/health-http')
 def health_check_http():
     return 'healthy'
+
+
+@app.teardown_request
+def teardown_request():
+    lg.info(f'teardown_request: {request}')
