@@ -47,6 +47,3 @@ def health_check_http():
     return 'healthy'
 
 
-@app.teardown_request
-def teardown_request():
-    lg.info(f'teardown_request: {request}')
