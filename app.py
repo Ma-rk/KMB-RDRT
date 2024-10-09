@@ -11,7 +11,7 @@ def setup_logger():
     logger.setLevel(lg.INFO)
 
     log_file_handler = TimedRotatingFileHandler(
-        '/logs/KMB_app.log', when="midnight", interval=1, backupCount=30
+        './logs/KMB_app.log', when="midnight", interval=1, backupCount=30
     )
     log_file_handler.setFormatter(lg.Formatter(
         '%(asctime)s - %(levelname)s - %(message)s'
