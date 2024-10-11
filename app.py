@@ -20,10 +20,16 @@ def setup_logger():
         '%(asctime)s - %(levelname)s - %(message)s'
     ))
 
+    console_handler = lg.StreamHandler()
+    console_handler.setFormatter(lg.Formatter(
+        '%(asctime)s - %(levelname)s - %(message)s'
+    ))
+
     if logger.hasHandlers():
         logger.handlers.clear()
 
     logger.addHandler(log_file_handler)
+    logger.addHandler(console_handler)
 
 
 setup_logger()
