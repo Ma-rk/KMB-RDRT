@@ -1,12 +1,24 @@
+import os
 import json
-import time
 import uuid
 import logging as lg
 from logging.handlers import TimedRotatingFileHandler
 from functools import wraps
 from flask import Flask, redirect, request, g
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from models.RequestLog import RequestLog
 
 app = Flask(__name__)
+
+app.config['RDS_KMB_ENDPOINT'] = os.environ['RDS_KMB_ENDPOINT']
+app.config['RDS_KMB_PORT'] = os.environ['RDS_KMB_PORT']
+app.config['RDS_KMB_ID'] = os.environ['RDS_KMB_ID']
+app.config['RDS_KMB_PW'] = os.environ['RDS_KMB_PW']
+app.config[
+    'SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.environ['RDS_KMB_ID']}:{os.environ['RDS_KMB_PW']}@{os.environ['RDS_KMB_ENDPOINT']}:{os.environ['RDS_KMB_PORT']}/KMB"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 def setup_logger():
@@ -34,6 +46,10 @@ def setup_logger():
 
 setup_logger()
 
+engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+Session = sessionmaker(bind=engine)
+session = Session()
+
 
 def generate_request_id():
     """고유한 요청 ID를 생성합니다."""
@@ -57,6 +73,11 @@ def request_id_middleware():
 @app.before_request
 def before_request():
     g.request_id = request_id_middleware()()
+
+    request_log = RequestLog(request.headers)
+    lg.info(request_log)
+    session.add(request_log)
+    session.commit()
 
 
 @app.route('/')
