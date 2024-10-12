@@ -74,9 +74,9 @@ def request_id_middleware():
 def before_request():
     g.request_id = request_id_middleware()()
 
-    request_log = RequestLog(request.headers)
-    lg.info(request_log)
-    session.add(request_log)
+    header_items = RequestLog(request.headers)
+    lg.info(header_items)
+    session.add(header_items)
     session.commit()
 
 
