@@ -87,7 +87,7 @@ def health_check_http():
 
 
 def insert_request_items():
-    header_items = RequestLog(request.headers)
+    header_items = RequestLog(request.path, request.url, request.headers)
     lg.info(header_items)
     session.add(header_items)
     session.commit()

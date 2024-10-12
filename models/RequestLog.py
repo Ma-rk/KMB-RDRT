@@ -8,6 +8,8 @@ class RequestLog(Base):
     __tablename__ = 'RequestLog'
     seq: Mapped[int] = mapped_column(primary_key=True)
     x_forwarded_for: Mapped[str] = mapped_column(String(255), name="X-Forwarded-For")
+    request_path: Mapped[str] = mapped_column(String(255), name="request-path")
+    request_url: Mapped[str] = mapped_column(String(255), name="request-url")
     x_forwarded_proto: Mapped[str] = mapped_column(String(255), name="X-Forwarded-Proto")
     x_forwarded_port: Mapped[str] = mapped_column(String(10), name="X-Forwarded-Port")
     host: Mapped[str] = mapped_column(String(255), name="Host")
@@ -18,9 +20,11 @@ class RequestLog(Base):
     accept_encoding: Mapped[str] = mapped_column(String(255), name="Accept-Encoding")
     accept_language: Mapped[str] = mapped_column(String(255), name="Accept-Language")
 
-    def __init__(self, headers):
+    def __init__(self, request_path, request_url, headers):
         super().__init__()
         self.x_forwarded_for = headers.get('X-Forwarded-For')
+        self.request_path = request_path
+        self.request_url = request_url
         self.x_forwarded_proto = headers.get('X-Forwarded-Proto')
         self.x_forwarded_port = headers.get('X-Forwarded-Port')
         self.host = headers.get('Host')
@@ -34,6 +38,8 @@ class RequestLog(Base):
     def __repr__(self) -> str:
         return (
             f"<RequestLog(id={self.seq}, "
+            f"request_path={self.request_path}, "
+            f"request_url={self.request_url}, "
             f"x_forwarded_for={self.x_forwarded_for}, "
             f"x_forwarded_proto={self.x_forwarded_proto}, "
             f"x_forwarded_port={self.x_forwarded_port}, "
