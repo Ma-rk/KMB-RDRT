@@ -74,11 +74,6 @@ def request_id_middleware():
 def before_request():
     g.request_id = request_id_middleware()()
 
-    header_items = RequestLog(request.headers)
-    lg.info(header_items)
-    session.add(header_items)
-    session.commit()
-
 
 @app.route('/')
 def redirect_to_komatbang():
@@ -89,6 +84,13 @@ def redirect_to_komatbang():
 @app.route('/health-http')
 def health_check_http():
     return 'healthy'
+
+
+def insert_request_items():
+    header_items = RequestLog(request.headers)
+    lg.info(header_items)
+    session.add(header_items)
+    session.commit()
 
 
 def print_request_log():
@@ -103,3 +105,4 @@ def print_request_log():
 @app.teardown_request
 def teardown_request(exception):
     print_request_log()
+    insert_request_items()
