@@ -6,7 +6,7 @@ from logging.handlers import TimedRotatingFileHandler
 from functools import wraps
 from flask import Flask, redirect, request, g
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 from models.RequestLog import RequestLog
 
@@ -47,8 +47,7 @@ def setup_logger():
 setup_logger()
 
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
-Session = sessionmaker(bind=engine)
-session = Session()
+Session = scoped_session(sessionmaker(bind=engine))
 
 
 def generate_request_id():
@@ -89,8 +88,12 @@ def health_check_http():
 def insert_request_items():
     header_items = RequestLog(request.path, request.url, request.headers)
     lg.info(header_items)
-    session.add(header_items)
-    session.commit()
+    Session.add(header_items)
+    lg.info('header_items is added to Session')
+    Session.commit()
+    lg.info('Session is committed')
+    Session.remove()
+    lg.info('Session is removed')
 
 
 def print_request_log():
